@@ -60,7 +60,7 @@ class GUI (tkinter.Frame):
         self.process_list = []
         self.server_list = []
         self.server_var = tkinter.StringVar()
-        self.server_var.set('185.223.28.35:5060')
+        self.server_var.set('000.000.00.00:0000')
         self.connect_button = tkinter.Button(text = 'connect!', command = self.spawn_new_phantom)
         self.connect_button.pack(fill = tkinter.BOTH, expand = True)
         self.server_ip_entry =  LabelEntry(label = 'server address:', var = self.server_var, validatetype = None, master = self)
