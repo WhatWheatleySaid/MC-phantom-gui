@@ -1,5 +1,5 @@
 # MC-phantom-gui
-This is an independent,minimalistic GUI solution for https://github.com/jhead/phantom
+This is an independent,minimalistic GUI solution for https://github.com/jhead/phantom, WIP: Currently only the most basic functions of "Phantom" are supported
 
 # Usage
 Download the dist folder and run GUI.exe. Add servers to the list by typing in their address and pressing "connect!". They will appear in the list below. The server should now show up under the "friends tab" in Minecraft bedrock Edition. 
