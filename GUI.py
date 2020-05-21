@@ -5,6 +5,7 @@ import subprocess
 from threading import Thread
 import os, glob
 import time
+import pickle
 
 class LabelEntry(tkinter.Frame):
     def __init__(self, label, var, validatetype = 'float', *args, **kwargs):
@@ -50,6 +51,7 @@ class LabelEntry(tkinter.Frame):
             return False
 
 class GUI (tkinter.Frame):
+    serverlist_filename = 'serverlist.pckl'
     def __init__(self, *args, **kwargs):
         tkinter.Frame.__init__(self,*args,**kwargs)
 
@@ -71,6 +73,7 @@ class GUI (tkinter.Frame):
 
         self.remove_button =  tkinter.Button(text = 'remove selected server(s)', command = self.remove_selected)
         self.remove_button.pack(fill = tkinter.BOTH, expand = True)
+        self.process_serverlist()
         self.pack(fill = tkinter.BOTH, expand = True)
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
@@ -82,6 +85,16 @@ class GUI (tkinter.Frame):
                 buffer.append(line)
             else:
                 break
+
+    def process_serverlist(self):
+        if os.path.isfile(self.serverlist_filename):
+            with open(self.serverlist_filename, 'rb') as file:
+                s_list = pickle.load(file)
+                print(s_list)
+            for server in s_list:
+                self.server_var.set(server)
+                self.spawn_new_phantom()
+
 
     def spawn_new_phantom(self):
         linebuffer = []
@@ -144,6 +157,8 @@ class GUI (tkinter.Frame):
     def on_closing(self):
         for p in self.process_list:
             p.kill()
+        with open(self.serverlist_filename, 'wb') as file:
+            pickle.dump(self.server_list, file)
         self.master.destroy()
 
 
