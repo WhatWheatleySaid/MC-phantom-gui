@@ -52,6 +52,7 @@ class LabelEntry(tkinter.Frame):
 
 class GUI (tkinter.Frame):
     serverlist_filename = 'serverlist.pckl'
+    buffer_read_time = 1000 #ms
     def __init__(self, *args, **kwargs):
         tkinter.Frame.__init__(self,*args,**kwargs)
 
@@ -59,6 +60,7 @@ class GUI (tkinter.Frame):
         column_names = ['server ip']
 
         self.path_to_phantom = self.search_phantom_exe()
+        self.lb_list = []
         self.process_list = []
         self.server_list = []
         self.server_var = tkinter.StringVar()
@@ -75,6 +77,8 @@ class GUI (tkinter.Frame):
         self.remove_button.pack(fill = tkinter.BOTH, expand = True)
         self.process_serverlist()
         self.pack(fill = tkinter.BOTH, expand = True)
+
+        self.after(self.buffer_read_time, self.print_buffers)
         self.master.protocol("WM_DELETE_WINDOW", self.on_closing)
 
     @staticmethod
@@ -95,10 +99,25 @@ class GUI (tkinter.Frame):
                 self.server_var.set(server)
                 self.spawn_new_phantom()
 
+    def print_buffers(self):
+        self.after(self.buffer_read_time, self.print_buffers)
+
+        if bool(self.server_list):
+            counter = 0
+            for linebuffer in self.lb_list:
+                if linebuffer:
+                    print('\n\n\nMessage(s) for Server {0}:'.format(self.server_list[counter]))
+                    counter = counter + 1
+                while True:
+                    if linebuffer:
+                        line = linebuffer.pop(0).decode('utf-8')
+                        print(line)
+                    else:
+                        break
 
     def spawn_new_phantom(self):
         linebuffer = []
-
+        self.lb_list.append(linebuffer)
         if self.server_var.get() in self.server_list:
             self.error_message('Error','server already in list!')
             return
