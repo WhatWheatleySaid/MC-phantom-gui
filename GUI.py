@@ -80,7 +80,7 @@ class GUI (tkinter.Frame):
         self.server_name_var.set('Server1')
         self.connect_button = tkinter.Button(text = 'connect!', command = self.spawn_new_phantom)
         self.connect_button.pack(fill = tkinter.BOTH, expand = True)
-        self.server_ip_entry =  LabelEntry(label = 'server address:', var = self.server_var, validatetype = 'basic', master = self)
+        self.server_ip_entry =  LabelEntry(label = 'server address:', var = self.server_var, validatetype = None, master = self)
         self.server_name_entry =  LabelEntry(label = 'server name:', var = self.server_name_var, validatetype = 'basic', master = self)
         self.tree = ttk.Treeview(self, columns =2, show = ['headings'])
         self.tree['columns'] = ['#1', '#2']
