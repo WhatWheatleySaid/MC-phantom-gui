@@ -176,7 +176,6 @@ class GUI (tkinter.Frame):
             id = self.tree.index(idx)
             self.stop_phantom(self.server_list[id])
             self.tree.delete(idx)
-            print(self.server_json)
             del self.server_json['servers'][self.server_list[id]['name'].lower()]
             del self.server_list[id]
             with open (self.serverlist_filename, 'w') as file:
@@ -193,7 +192,6 @@ class GUI (tkinter.Frame):
             with open(self.serverlist_filename, 'rb') as file:
                 s_list = json.load(file)
                 self.server_json = s_list
-                print(s_list)
                 self.server_list = [server for name,server in s_list['servers'].items()]
 
         for server in self.server_list:
